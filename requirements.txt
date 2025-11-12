@@ -1,0 +1,16 @@
+# uAgents Framework (Fetch.ai)
+uagents>=0.12.0
+uagents-core
+
+# AI/LLM APIs
+openai>=1.0.0
+google-genai
+
+# Browser Automation
+browser-use
+playwright>=1.40.0
+
+# Utilities
+python-dotenv>=1.0.0
+pydantic>=2.5.0
+aiohttp>=3.8.0
