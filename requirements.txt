@@ -1,5 +1,5 @@
 # uAgents Framework (Fetch.ai)
-uagents>=0.12.0
+uagents>=0.22.10
 uagents-core
 
 # AI/LLM APIs
