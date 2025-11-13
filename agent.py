@@ -724,7 +724,7 @@ You need to click the time slot button again. Look for a button with a time like
     task = f"""Make a complete OpenTable reservation:
 follow these exact steps:
 STEPS:
-1. Go to OpenTable.com
+1. Go to https://www.opentable.com/
 
 2. MANDATORY: Call the tool "Select date, time, and party size on OpenTable homepage" with:
    - date: "{date}"
