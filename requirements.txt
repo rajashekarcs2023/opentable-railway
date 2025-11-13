@@ -3,7 +3,7 @@ uagents>=0.22.10
 uagents-core
 
 # AI/LLM APIs
-openai>=1.0.0
+openai
 google-genai
 
 # Browser Automation
