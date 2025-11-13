@@ -25,6 +25,7 @@ from uagents_core.contrib.protocols.chat import (
 
 from browser_use import Agent as BrowserAgent, Tools, ChatGoogle, ActionResult
 from browser_use.browser.session import BrowserSession
+from browser_use.browser.browser import BrowserConfig
 from pydantic import BaseModel
 
 # Load environment
@@ -843,11 +844,25 @@ STEPS:
 CRITICAL: You CAN fill credit cards using the tool! Do NOT mark task as failed!"""
     
     try:
-        # Create and run browser agent
-        llm = ChatGoogle(model="gemini-2.0-flash-exp")
-        browser_agent = BrowserAgent(task=task, llm=llm, tools=tools)
+        # Create browser config with proper wait settings
+        browser_config = BrowserConfig(
+            headless=True,
+            disable_security=False,
+            wait_for_network_idle_page_load_time=3.0,  # Wait 3s for OpenTable to load
+        )
         
-        ctx.logger.info("Starting browser automation...")
+        # Create and run browser agent with stable model
+        llm = ChatGoogle(model="gemini-1.5-flash")  # More stable, higher quota (15/min)
+        browser_agent = BrowserAgent(
+            task=task,
+            llm=llm,
+            tools=tools,
+            browser_config=browser_config,
+            max_actions_per_step=3,
+            max_total_steps=30  # Prevent infinite retry loops
+        )
+        
+        ctx.logger.info("Starting browser automation with wait-for-load config...")
         result = await browser_agent.run()
         
         ctx.logger.info(f"Browser automation result: {result}")
