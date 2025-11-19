@@ -152,15 +152,16 @@ def combine_media(video_path: Path, voiceover_path: Path, music_path: Path, outp
         '-i', str(voiceover_path),       # Input voiceover
         '-i', str(music_path),           # Input music
         '-filter_complex',
-        # Mix audio: voice at full volume, music at 30%
-        '[1:a]volume=1.0[voice];'
-        '[2:a]volume=0.3[music];'
-        '[voice][music]amix=inputs=2:duration=first[audio]',
+        # Normalize sample rates and channels, then mix
+        '[1:a]aresample=48000,aformat=sample_fmts=fltp:channel_layouts=stereo,volume=1.0[voice];'
+        '[2:a]aresample=48000,aformat=sample_fmts=fltp:channel_layouts=stereo,volume=0.3[music];'
+        '[voice][music]amix=inputs=2:duration=longest:dropout_transition=2,dynaudnorm=f=150:g=15[audio]',
         '-map', '0:v',                   # Use video from first input
         '-map', '[audio]',               # Use mixed audio
         '-c:v', 'copy',                  # Copy video codec (no re-encoding)
         '-c:a', 'aac',                   # Encode audio as AAC
         '-b:a', '192k',                  # Audio bitrate
+        '-ar', '48000',                  # Sample rate
         '-shortest',                     # Match shortest input duration
         '-y',                            # Overwrite output
         str(output_path)
