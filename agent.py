@@ -154,8 +154,8 @@ def combine_media(video_path: Path, voiceover_path: Path, music_path: Path, outp
         '-filter_complex',
         # Normalize sample rates and channels, then mix
         '[1:a]aresample=48000,aformat=sample_fmts=fltp:channel_layouts=stereo,volume=1.0[voice];'
-        '[2:a]aresample=48000,aformat=sample_fmts=fltp:channel_layouts=stereo,volume=0.3[music];'
-        '[voice][music]amix=inputs=2:duration=longest:dropout_transition=2,dynaudnorm=f=150:g=15[audio]',
+        '[2:a]aresample=48000,aformat=sample_fmts=fltp:channel_layouts=stereo,volume=0.25[music];'
+        '[voice][music]amix=inputs=2:duration=longest:dropout_transition=2:normalize=0[audio]',
         '-map', '0:v',                   # Use video from first input
         '-map', '[audio]',               # Use mixed audio
         '-c:v', 'copy',                  # Copy video codec (no re-encoding)
