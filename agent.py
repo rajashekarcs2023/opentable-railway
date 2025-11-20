@@ -45,7 +45,9 @@ CHANNELS = 2  # Stereo
 # Create agent
 agent = Agent(
     name="real_music",
-    seed="real-music-seed2020-2025"
+    seed="real-music-seed2020-2025",
+    port=8017,
+    mailbox = True
 )
 
 # Initialize chat protocol
